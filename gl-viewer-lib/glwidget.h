@@ -20,6 +20,8 @@ public:
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
 
+    void keyPressed(QKeyEvent& e);
+
 protected:
 
     void initializeGL();
@@ -34,6 +36,8 @@ private:
 
     double leftRightAngle ,upDownAngle,lookDistance;
     artisoko::common::Drawable& drawable;
+
+    int x,y;
 
 };
 }}

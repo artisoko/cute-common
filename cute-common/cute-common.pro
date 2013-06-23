@@ -12,7 +12,8 @@ DEFINES += CUTECOMMON_LIBRARY
 SOURCES += cutecommon.cpp
 
 HEADERS += cutecommon.h\
-        cute-common_global.h
+        cute-common_global.h \
+    include/drawable.h
 
 unix:!symbian {
     maemo5 {

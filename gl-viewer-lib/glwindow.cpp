@@ -47,6 +47,8 @@ void GlWindow::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Escape)
         close();
+    else if (glWidget && e->key() == Qt::Key_Left || e->key() == Qt::Key_Right || e->key() == Qt::Key_Up || e->key() == Qt::Key_Down)
+        glWidget->keyPressed(*e);
     else
         QWidget::keyPressEvent(e);
 }

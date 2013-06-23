@@ -22,7 +22,8 @@ GLWidget::GLWidget(Drawable &d, QWidget *parent)
       leftRightAngle(0.0),
       upDownAngle(1.0),
       lookDistance(3.0),
-      drawable(d)
+      drawable(d),
+      x(0), y(0)
 {
 }
 
@@ -61,20 +62,21 @@ void GLWidget::paintGL()
     glLoadIdentity();
 
     // z - do góry (dodatni)
-//    GLdouble x = lookDistance * sin(upDownAngle) * cos(leftRightAngle);
-//    GLdouble y = lookDistance * sin(upDownAngle) * sin(leftRightAngle);
-//    GLdouble z = lookDistance * cos(leftRightAngle);
+    //    GLdouble x = lookDistance * sin(upDownAngle) * cos(leftRightAngle);
+    //    GLdouble y = lookDistance * sin(upDownAngle) * sin(leftRightAngle);
+    //    GLdouble z = lookDistance * cos(leftRightAngle);
 
-//    QVector3D up = QVector3D (0,0,1);
+    //    QVector3D up = QVector3D (0,0,1);
 
-//    gluLookAt(x,y,z,0,0,0,0,0,1);
+    //    gluLookAt(x,y,z,0,0,0,0,0,1);
     glRotatef(90.f, 1,0,0); // patrze na -y
+    glTranslatef(x,0,y);
     glTranslatef(0,-lookDistance,0);
 
     glRotatef(M_PI * 2 * upDownAngle,1.f,0,0 );
     glRotatef(M_PI * 2 * leftRightAngle,0,0,1.f);
-//    glRotatef(30.f, 1.0f,0,0);
-//    glRotatef(30.f, 0,0,1.0f);
+    //    glRotatef(30.f, 1.0f,0,0);
+    //    glRotatef(30.f, 0,0,1.0f);
 
     drawable.draw();
 }
@@ -91,11 +93,11 @@ void GLWidget::resizeGL(int width, int height)
 
     gluPerspective(60.f, 1.f, 0.1, 1000.0);
 
-//#ifdef QT_OPENGL_ES_1
-//    glFrustum (-ODL, +ODL, -ODL, +ODL, 0.1, 1000.0);
-//#else
-//    glFrustum(-ODL, +ODL, -ODL, +ODL, 0.1, 1000.0);
-//#endif
+    //#ifdef QT_OPENGL_ES_1
+    //    glFrustum (-ODL, +ODL, -ODL, +ODL, 0.1, 1000.0);
+    //#else
+    //    glFrustum(-ODL, +ODL, -ODL, +ODL, 0.1, 1000.0);
+    //#endif
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -117,10 +119,30 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     } else if (event->buttons() & Qt::RightButton) {
         lookDistance += (dy+dx) * 0.1 ;
         if (lookDistance < 1) lookDistance = 1 ;
-        if (lookDistance > 50) lookDistance = 50 ;
+        if (lookDistance > 500) lookDistance = 500 ;
         updateGL();
     }
     lastPos = event->pos();
+}
+
+void GLWidget::keyPressed(QKeyEvent& e)
+{
+    switch (e.key())
+    {
+    case Qt::Key_Left:
+        --x;
+        break;
+    case Qt::Key_Right:
+        ++x;
+        break ;
+    case Qt::Key_Up:
+        --y;
+        break;
+    case Qt::Key_Down:
+        ++y;
+        break;
+    }
+    updateGL();
 }
 
 }}
