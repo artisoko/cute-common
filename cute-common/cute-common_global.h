@@ -1,0 +1,12 @@
+#ifndef CUTECOMMON_GLOBAL_H
+#define CUTECOMMON_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(CUTECOMMON_LIBRARY)
+#  define CUTECOMMONSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define CUTECOMMONSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // CUTECOMMON_GLOBAL_H
